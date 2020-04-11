@@ -27,7 +27,7 @@ public class MotherCube : MonoBehaviour
             LostRandomSonCube();
     }
 
-    public void AddFullCore(Core core)
+    public void AddFullCoreArray(Core core)
     {
         fullCoreArray.Add(core);
     }

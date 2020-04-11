@@ -23,7 +23,7 @@ public class Core : MonoBehaviour
 
     public void GetSonCube()
     {
-        motherCube.AddFullCore(this);
+        motherCube.AddFullCoreArray(this);
         sonCube.SetActive(true);
     }
     public void LostSonCube()
