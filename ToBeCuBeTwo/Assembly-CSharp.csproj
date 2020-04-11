@@ -66,7 +66,9 @@
     <Compile Include="Assets\Scripts\Core.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\MotherCube.cs" />
+    <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\SonCube.cs" />
+    <None Include="Assets\SimpleFX\Materials\UnlitVertexColour_Alpha.shader" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/baram/Documents/GitHub/JoyGit/ToBeCuBeTwo/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

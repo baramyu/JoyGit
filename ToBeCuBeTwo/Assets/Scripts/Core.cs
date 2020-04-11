@@ -6,8 +6,7 @@ public class Core : MonoBehaviour
 {
     public MotherCube motherCube;
     public GameObject sonCube;
-    public float settlingSpeedLimit;
-    public float settlingAngleLimit;
+    public ParticleSystem lostParticle;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +27,7 @@ public class Core : MonoBehaviour
     }
     public void LostSonCube()
     {
+        lostParticle.Play();
         sonCube.SetActive(false);
     }
 
@@ -40,7 +40,7 @@ public class Core : MonoBehaviour
         {
             Debug.Log(other.attachedRigidbody.velocity.magnitude);
             //속도, 각도가 제한 범위 내에 있으면
-            if (other.attachedRigidbody.velocity.magnitude <= settlingSpeedLimit)
+            if (other.attachedRigidbody.velocity.magnitude <= GameManager.instance.settlingSpeedLimit)
             {
                 Destroy(other.gameObject);
                 GetSonCube();

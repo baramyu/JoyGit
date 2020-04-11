@@ -13,11 +13,7 @@ public class MotherCube : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        foreach(Core core in coreArray)
-        {
-            core.GetSonCube();
-        }
-
+        Init();
     }
 
     // Update is called once per frame
@@ -25,6 +21,14 @@ public class MotherCube : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.A))
             LostRandomSonCube();
+    }
+
+    public void Init()
+    {
+        foreach (Core core in coreArray)
+        {
+            core.GetSonCube();
+        }
     }
 
     public void AddFullCoreArray(Core core)

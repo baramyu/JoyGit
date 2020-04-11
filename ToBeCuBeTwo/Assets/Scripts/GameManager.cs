@@ -15,7 +15,19 @@ public class GameManager : MonoBehaviour
     public AudioSource bgmAudioSource;
     public AudioSource soundAudioSource;
     public float swipeSensitivity;
-
+    public float settlingSpeedLimit;
+    public float settlingAngleLimit;
+    public Color cubeColor;
+    public Color coreColor;
+    public Material cubeMaterial;
+    public Material coreMaterial;
+    public Image startButtonImage;
+    public Image optionButtonImage;
+    public Image optionPanelImage;
+    public Image gridButtonImage;
+    public MotherCube motherCube;
+    public GameObject grid;
+    public Text gridButtonText;
     void Awake()
     {
         instance = this;
@@ -24,6 +36,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Coloring();
     }
 
     // Update is called once per frame
@@ -32,10 +45,21 @@ public class GameManager : MonoBehaviour
         
     }
 
-
+    void Coloring()
+    {
+        cubeColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+        coreColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+        cubeMaterial.color = cubeColor;
+        coreMaterial.color = coreColor;
+        startButtonImage.color = cubeColor;
+        optionButtonImage.color = cubeColor;
+        optionPanelImage.color = cubeColor;
+        gridButtonImage.color = cubeColor;
+    }
     public void GameStart()
     {
-
+        Coloring();
+        motherCube.Init();
         gameState = GameState.inGame;
     }
     public void GameOver()
@@ -60,8 +84,6 @@ public class GameManager : MonoBehaviour
         bgmAudioSource.volume = bgmSlider.value;
         bgmValueText.text = (bgmSlider.value * 100).ToString("N0");
     }
-
-
     public void SoundVolumeChange()
     {
         soundAudioSource.volume = soundSlider.value;
@@ -72,5 +94,10 @@ public class GameManager : MonoBehaviour
     {
         swipeSensitivity = sensSlider.value;
         sensValueText.text = (sensSlider.value * 100).ToString("N0");
+    }
+    public void GridSwitching()
+    {
+        grid.SetActive(!grid.activeSelf);
+        gridButtonText.text = grid.activeSelf ? "ON" : "OFF";
     }
 }

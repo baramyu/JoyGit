@@ -18,6 +18,7 @@ public class SonCube : MonoBehaviour
         
     }
 
+
     public void Shot()
     {
         rb.constraints = RigidbodyConstraints.None;
