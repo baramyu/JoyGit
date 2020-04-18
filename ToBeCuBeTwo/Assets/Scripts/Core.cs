@@ -24,6 +24,7 @@ public class Core : MonoBehaviour
     {
         motherCube.AddFullCoreArray(this);
         sonCube.SetActive(true);
+        sonCube.GetComponent<SonCube>().Freeze();
     }
     public void LostSonCube()
     {
@@ -38,11 +39,11 @@ public class Core : MonoBehaviour
         //아들큐브가 없을때 아들큐브와 충돌하면
         if(sonCube.activeSelf == false && other.transform.CompareTag("SonCube"))
         {
-            Debug.Log(other.attachedRigidbody.velocity.magnitude);
+            //Debug.Log(other.attachedRigidbody.velocity.magnitude);
             //속도, 각도가 제한 범위 내에 있으면
             if (other.attachedRigidbody.velocity.magnitude <= GameManager.instance.settlingSpeedLimit)
             {
-                Destroy(other.gameObject);
+                other.gameObject.SetActive(false);
                 GetSonCube();
             }
         }

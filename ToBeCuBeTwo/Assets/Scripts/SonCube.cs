@@ -4,24 +4,48 @@ using UnityEngine;
 
 public class SonCube : MonoBehaviour
 {
-    public float shotPower;
-    private Rigidbody rb;
-    // Start is called before the first frame update
-    void Start()
+
+
+    public float minHeight;
+    public Rigidbody rb;
+
+    private void OnDisable()
     {
-        rb = GetComponent<Rigidbody>();
+        rb.velocity = Vector3.zero;
+
+        rb.angularVelocity = Vector3.zero;
+
+        rb.Sleep();
+    }
+
+    private void OnEnable()
+    {
+        rb.WakeUp();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (transform.position.y <= minHeight)
+            gameObject.SetActive(false);
+
+
         
     }
 
 
-    public void Shot()
+    public void Shot(float shotPower, Vector3 spawnPoint)
     {
-        rb.constraints = RigidbodyConstraints.None;
+        transform.position = spawnPoint;
+        transform.rotation = Quaternion.identity;
         rb.AddForce(Vector3.down * shotPower);
     }
+    
+    public void Freeze()
+    {
+        rb.constraints = RigidbodyConstraints.FreezeAll;
+    }
+
+
+
 }
