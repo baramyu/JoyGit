@@ -98,7 +98,6 @@ public class GameManager : MonoBehaviour
     }
     public void GameStart()
     {
-        Coloring();
         motherCube.fullSonCube();
         motherCube.lostTime = firstLostTime;
         time = 0f;
@@ -117,9 +116,9 @@ public class GameManager : MonoBehaviour
 
             float newLostTime = motherCube.lostTime - decreaseLostTime;
 
-            if (newLostTime <= 0f)
+            if (newLostTime <= 0.05f)
             {
-                newLostTime = motherCube.lostTime / 2f;
+                newLostTime = 0.05f;
             }
 
             motherCube.lostTime = newLostTime;
@@ -147,7 +146,7 @@ public class GameManager : MonoBehaviour
 
 
 
-
+    //유니티 기본 UI를 이용한 옵션입니다.
     public Slider bgmSlider;
     public Text bgmValueText;
     public Slider soundSlider;
@@ -155,6 +154,7 @@ public class GameManager : MonoBehaviour
     public Slider sensSlider;
     public Text sensValueText;
 
+    //슬라이더 값이 변경 될 때 호출해줄 함수들입니다.
     public void BgmVolumeChange()
     {
         bgmAudioSource.volume = bgmSlider.value;
@@ -162,11 +162,13 @@ public class GameManager : MonoBehaviour
     }
     public void SoundVolumeChange()
     {
+        //BGM은 하나의 오디오 소스지만 효과음을 내는 오디오 소스는 다수이므로 여러개를 처리해줍니다.
         foreach (AudioSource audioSource in soundAudioSource)
         {
             audioSource.volume = soundSlider.value;
         }
         soundValueText.text =  (soundSlider.value * 100).ToString("N0");
+        //소리크기가 변경된 효과음을 한번 들려줍니다.
         soundAudioSource[0].Play();
     }
     public void SensChange()
@@ -174,13 +176,42 @@ public class GameManager : MonoBehaviour
         player.SetSwipeSensitivity(sensSlider.value);
         sensValueText.text = (sensSlider.value * 100).ToString("N0");
     }
+
+    //버튼이 눌리면 호출되는 함수입나다.  누르면 On/Off를 스위치합니다. 
     public void GridSwitching()
     {
         gridObj.SetActive(!gridObj.activeSelf);
         gridButtonText.text = gridObj.activeSelf ? "ON" : "OFF";
     }
 
+    //옵션 정보를 PlayerPrefs로 기록하는 함수입니다.
+    public void SetOptionInfo()
+    {
+        PlayerPrefs.SetInt("grid", gridObj.activeSelf ? 1 : 0);
+        PlayerPrefs.SetFloat("bgm", bgmSlider.value);
+        PlayerPrefs.SetFloat("sound", soundSlider.value);
+        PlayerPrefs.SetFloat("sens", sensSlider.value);
+    }
 
+    //최초에 PlayerPrePrefs에서 옵션 정보를 받아오는 함수입니다.
+    void GetOptionInfo()
+    {
+        bool grid = PlayerPrefs.GetInt("grid", 1) == 1 ? true : false;
+        float bgm = PlayerPrefs.GetFloat("bgm", 0.5f);
+        float sound = PlayerPrefs.GetFloat("sound", 0.5f);
+        float sens = PlayerPrefs.GetFloat("sens", 0.15f);
+
+
+        bgmSlider.value = bgm;
+        soundSlider.value = sound;
+        sensSlider.value = sens;
+
+        BgmVolumeChange();
+        SoundVolumeChange();
+        SensChange();
+        gridObj.SetActive(grid);
+        gridButtonText.text = grid ? "ON" : "OFF";
+    }
 
     /// <summary>
     /// 레터박스를 통해 원하는 화면 비율을 세팅해주는 함수입니다.
@@ -247,31 +278,5 @@ public class GameManager : MonoBehaviour
     }
     
 
-    public void SetOptionInfo()
-    {
-        PlayerPrefs.SetInt("grid", gridObj.activeSelf? 1 : 0);
-        PlayerPrefs.SetFloat("bgm", bgmSlider.value);
-        PlayerPrefs.SetFloat("sound", soundSlider.value);
-        PlayerPrefs.SetFloat("sens", sensSlider.value);
-    }
-
-
-    void GetOptionInfo()
-    {
-        bool grid = PlayerPrefs.GetInt("grid", 1) == 1? true : false;
-        float bgm = PlayerPrefs.GetFloat("bgm", 0.5f);
-        float sound = PlayerPrefs.GetFloat("sound", 0.5f);
-        float sens = PlayerPrefs.GetFloat("sens", 0.15f);
-
-
-        bgmSlider.value = bgm;
-        soundSlider.value = sound;
-        sensSlider.value = sens;
-        
-        BgmVolumeChange();
-        SoundVolumeChange();
-        SensChange();
-        gridObj.SetActive(grid);
-        gridButtonText.text = grid ? "ON" : "OFF";
-    }
+    
 }
