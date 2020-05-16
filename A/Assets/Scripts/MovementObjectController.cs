@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class MovementObjectController : MonoBehaviour
 {
+    public int maxHp;
     public int damage;
 
     public Rigidbody m_Rigidbody;
@@ -11,7 +14,11 @@ public class MovementObjectController : MonoBehaviour
     [SerializeField]
     protected Animator m_Animator;
     [SerializeField]
-    protected BoxCollider hitBox;
+    protected Collider[] hitBoxes;
+
+
+    protected int curHp;
+
 
     public bool moveAble { get; set; }
     public bool tumbleAble { get; set; }
@@ -22,6 +29,8 @@ public class MovementObjectController : MonoBehaviour
 
     protected virtual void Start()
     {
+        curHp = maxHp;
+
         moveAble = true;
         jumpAble = true;
         attackAble = true;
@@ -33,6 +42,7 @@ public class MovementObjectController : MonoBehaviour
         {
             movementAbleControllers[i].movementObjectController = this;
         }
+
     }
 
 
@@ -55,11 +65,13 @@ public class MovementObjectController : MonoBehaviour
     {
     }
 
-    public Collider[] GetCollidersInHitBox()
+    public Collider[] GetCollidersInHitBox(int hitBoxNum)
     {
-        Collider[] hitColliders = Physics.OverlapBox(hitBox.center + transform.position, hitBox.size / 2, Quaternion.identity, 1 << 9);
-
+        Collider[] hitColliders = Physics.OverlapBox(hitBoxes[hitBoxNum].bounds.center, hitBoxes[hitBoxNum].bounds.extents, Quaternion.identity, 1 << 9);
+        Debug.Log(hitBoxes[hitBoxNum].bounds.center + " / " + hitBoxes[hitBoxNum].bounds.extents);
         return hitColliders;
     }
+
+    
 
 }

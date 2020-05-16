@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MovementAbleController_Hitting : MovementAbleController
 {
+    public int hitBoxNum;
     List<Collider> hitedColliders;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -28,13 +29,13 @@ public class MovementAbleController_Hitting : MovementAbleController
 
     void SendHitMessage()
     {
-        foreach (Collider hitCollider in movementObjectController.GetCollidersInHitBox())
+        foreach (Collider hitCollider in movementObjectController.GetCollidersInHitBox(hitBoxNum))
         {
             if (!hitedColliders.Contains(hitCollider))
             {
                 hitedColliders.Add(hitCollider);
 
-                hitCollider.SendMessage("OnDamaged", movementObjectController.damage, SendMessageOptions.DontRequireReceiver);
+                hitCollider.SendMessage("OnDamage", movementObjectController.damage, SendMessageOptions.DontRequireReceiver);
             }
         }
     }

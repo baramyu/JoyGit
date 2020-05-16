@@ -16,6 +16,7 @@ public class PlayerController : MovementObjectController
     [SerializeField]
     GameObject dirGizmo;
 
+
     public int m_jumpNum { get; set; }
 
     public Vector3 dirInput { get; set; }

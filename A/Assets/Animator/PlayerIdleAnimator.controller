@@ -39,6 +39,7 @@ MonoBehaviour:
   jumpAble: 0
   attackAble: 0
   tumbleAble: 0
+  hitBoxNum: 1
 --- !u!1101 &-8462418228962681029
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1526,6 +1527,7 @@ MonoBehaviour:
   jumpAble: 0
   attackAble: 0
   tumbleAble: 0
+  hitBoxNum: 1
 --- !u!1102 &4989900788485324284
 AnimatorState:
   serializedVersion: 5
@@ -1840,6 +1842,7 @@ MonoBehaviour:
   jumpAble: 0
   attackAble: 0
   tumbleAble: 0
+  hitBoxNum: 0
 --- !u!114 &8115133669028300787
 MonoBehaviour:
   m_ObjectHideFlags: 3

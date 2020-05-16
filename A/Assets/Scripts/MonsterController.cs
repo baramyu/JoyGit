@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class MonsterController : MovementObjectController
 {
-    public int hp;
     public float maxMoveRadius;
 
 
     [SerializeField]
-    NavMeshAgent m_agent;
+    NavMeshAgent m_Agent;
+    [SerializeField]
+    RectTransform m_Canvas;
+    [SerializeField]
+    Slider hpSlider;
 
     GameObject target;
-    bool dead;
     float lastSetDestinationTime;
     float delaySetDestinationTime;
 
@@ -25,8 +28,15 @@ public class MonsterController : MovementObjectController
         SetRandomDestiantion();
     }
 
+    private void Update()
+    {
+        m_Canvas.rotation = Quaternion.identity;
+    }
+
+
     private void FixedUpdate()
     {
+        Finding();
         Moving();
     }
 
@@ -36,12 +46,12 @@ public class MonsterController : MovementObjectController
 
         if (!moveAble)
         {
-            m_agent.isStopped = true;
+            m_Agent.isStopped = true;
         }
         else
         {
-            m_agent.isStopped = false;
-            m_Animator.SetFloat("moveSpeed", m_agent.desiredVelocity.magnitude);
+            m_Agent.isStopped = false;
+            m_Animator.SetFloat("moveSpeed", m_Agent.desiredVelocity.magnitude);
 
             if (target == null)
             {
@@ -52,8 +62,9 @@ public class MonsterController : MovementObjectController
             }
             else
             {
-                m_agent.SetDestination(target.transform.position);
+                m_Agent.SetDestination(target.transform.position);
             }
+
         }
 
 
@@ -67,30 +78,69 @@ public class MonsterController : MovementObjectController
     {
         Vector3 rndPoint = Random.insideUnitSphere * maxMoveRadius + transform.position;
         
-        m_agent.SetDestination(rndPoint);
+        m_Agent.SetDestination(rndPoint);
 
         lastSetDestinationTime = Time.time;
         delaySetDestinationTime = Random.Range(0f, 5f);
     }
 
 
-    void OnDamaged(int damage)
+    public void OnDamage(int damage)
     {
-        hp -= damage;
+        curHp -= damage;
+        hpSlider.value = (float)curHp / maxHp;
 
-        if(hp <= 0)
+        if(curHp <= 0)
         {
             OnDie();
         }
         else
         {
-            m_Animator.SetTrigger("damaged");
+            m_Animator.SetTrigger("damage");
         }
     }
     void OnDie()
     {
+        Collider[] colliders = GetComponents<Collider>();
+        foreach(Collider collider in colliders)
+        {
+            collider.enabled = false;
+        }
         m_Animator.SetTrigger("die");
     }
+
+
+
+    void Finding()
+    {
+        if (target != null)
+            return;
+
+        Collider[] colliders = Physics.OverlapSphere(transform.position, maxMoveRadius);
+
+        foreach(Collider collider in colliders)
+        {
+            if(collider.CompareTag("Player"))
+            {
+                target = collider.gameObject;
+                transform.LookAt(target.transform);
+                m_Animator.SetTrigger("scream");
+                m_Agent.speed = 3f;
+
+                return;
+            }
+        }
+    }
+
+
+    protected override void Attack()
+    {
+        if (!attackAble)
+            return;
+        
+
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -100,7 +150,7 @@ public class MonsterController : MovementObjectController
             transform.LookAt(target.transform);
             m_Animator.SetTrigger("scream");
 
-            m_agent.speed = 3f;
+            m_Agent.speed = 3f;
         }
     }
 
