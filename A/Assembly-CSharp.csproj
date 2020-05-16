@@ -69,13 +69,15 @@
     <Compile Include="Assets\Scripts\Item.cs" />
     <Compile Include="Assets\Scripts\Item_Equipment.cs" />
     <Compile Include="Assets\Scripts\ItemSlot.cs" />
-    <Compile Include="Assets\Scripts\Monster.cs" />
+    <Compile Include="Assets\Scripts\MonsterController.cs" />
+    <Compile Include="Assets\Scripts\MovementObjectController.cs" />
     <Compile Include="Assets\Scripts\NPC.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\PopupManager.cs" />
     <Compile Include="Assets\Scripts\Quest.cs" />
     <Compile Include="Assets\Scripts\StateMachine\HurricaneKick.cs" />
     <Compile Include="Assets\Scripts\StateMachine\MovementAbleController.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\MovementAbleController_Hitting.cs" />
     <Compile Include="Assets\Scripts\UIController.cs" />
     <Compile Include="Assets\Scripts\VirtualJoystick.cs" />
     <None Include="Assets\Models\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />

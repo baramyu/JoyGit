@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MovementObjectController
 {
     
     
@@ -12,39 +12,18 @@ public class PlayerController : MonoBehaviour
     public float jumpSpeed;
     public int jumpNum;
     public float tumbleSpeed;
-    public Rigidbody m_Rigidbody;
     
-    [SerializeField]
-    Animator m_Animator;
-    [SerializeField]
-    BoxCollider hitBox;
     [SerializeField]
     GameObject dirGizmo;
 
     public int m_jumpNum { get; set; }
-    public bool moveAble { get; set; }
-    public bool tumbleAble { get; set; }
-    public bool jumpAble { get; set; }
-    public bool attackAble { get; set; }
-    public bool rotateAble { get; set; }
 
     public Vector3 dirInput { get; set; }
 
-    void Start()
+    protected override void Start()
     {
-        moveAble = true;
-        jumpAble = true;
-        attackAble = true;
-        tumbleAble = true;
-        rotateAble = true;
+        base.Start();
 
-
-        //StateMachineBehaviour
-        MovementAbleController[] movementAbleControllers= m_Animator.GetBehaviours<MovementAbleController>();
-        for(int i = 0; i < movementAbleControllers.Length; i++)
-        {
-            movementAbleControllers[i].playerController = this;
-        }
     }
 
 
@@ -92,30 +71,31 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Moving()
+    protected override void Moving()
     {
         if (!moveAble)
             return;
-                
+
         m_Rigidbody.MovePosition(m_Rigidbody.position + dirInput * moveSpeed * Time.deltaTime);
         m_Animator.SetFloat("moveSpeed", dirInput.magnitude);
         m_Animator.SetFloat("fallingSpeed", m_Rigidbody.velocity.y);
 
     }
-    void Rotating()
+    protected override void Rotating()
     {
         if (!rotateAble)
             return;
+
         Vector3 desiredForwardd = Vector3.RotateTowards(transform.forward, dirInput, turnSpeed * Time.deltaTime, 0f);
         m_Rigidbody.rotation = Quaternion.LookRotation(desiredForwardd);
     }
 
-    public void Jump()
+    protected override void Jump()
     {
         if (!jumpAble)
             return;
 
-        if(m_jumpNum > 0)
+        if (m_jumpNum > 0)
         {
             m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, jumpSpeed, m_Rigidbody.velocity.z);
             //_Rigidbody.AddForce(Vector3.up * jumpSpeed * 10f);
@@ -123,11 +103,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void Attack()
+    protected override void Attack()
     {
         if (!attackAble)
             return;
-        if(m_Animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle"))
+
+        if (m_Animator.GetCurrentAnimatorStateInfo(0).IsTag("Idle"))
         {
             m_Animator.SetTrigger("attack");
         }
@@ -136,7 +117,7 @@ public class PlayerController : MonoBehaviour
             m_Animator.SetTrigger("combo");
         }
     }
-    public void Tumble()
+    protected override void Tumble()
     {
         if (!tumbleAble)
             return;
@@ -158,6 +139,7 @@ public class PlayerController : MonoBehaviour
 
 
     }
+
 
     private void OnCollisionStay(Collision collision)
     {

@@ -8,7 +8,7 @@ public class HurricaneKick : MovementAbleController
     {
         base.OnStateEnter(animator, stateInfo, layerIndex);
 
-        playerController.m_Rigidbody.constraints |=  RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationY;
+        movementObjectController.m_Rigidbody.constraints |=  RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationY;
     }
 
 
@@ -16,6 +16,6 @@ public class HurricaneKick : MovementAbleController
     {
         base.OnStateExit(animator, stateInfo, layerIndex);
 
-        playerController.m_Rigidbody.constraints ^= RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationY;
+        movementObjectController.m_Rigidbody.constraints ^= RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationY;
     }
 }

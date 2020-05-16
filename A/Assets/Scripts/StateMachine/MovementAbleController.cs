@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MovementAbleController : StateMachineBehaviour
 {
-    public PlayerController playerController { get; set; }
+    public MovementObjectController movementObjectController { get; set; }
 
     public bool moveAble;
     public bool rotateAble;
@@ -14,28 +14,28 @@ public class MovementAbleController : StateMachineBehaviour
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        playerController.moveAble = moveAble;
-        playerController.jumpAble = jumpAble;
-        playerController.attackAble = attackAble;
-        playerController.tumbleAble = tumbleAble;
-        playerController.rotateAble = rotateAble;
+        movementObjectController.moveAble = moveAble;
+        movementObjectController.jumpAble = jumpAble;
+        movementObjectController.attackAble = attackAble;
+        movementObjectController.tumbleAble = tumbleAble;
+        movementObjectController.rotateAble = rotateAble;
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        playerController.moveAble = moveAble;
-        playerController.jumpAble = jumpAble;
-        playerController.attackAble = attackAble;
-        playerController.tumbleAble = tumbleAble;
-        playerController.rotateAble = rotateAble;
+        movementObjectController.moveAble = moveAble;
+        movementObjectController.jumpAble = jumpAble;
+        movementObjectController.attackAble = attackAble;
+        movementObjectController.tumbleAble = tumbleAble;
+        movementObjectController.rotateAble = rotateAble;
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        playerController.moveAble = true;
-        playerController.jumpAble = true;
-        playerController.attackAble = true;
-        playerController.tumbleAble = true;
-        playerController.rotateAble = true;
+        movementObjectController.moveAble = true;
+        movementObjectController.jumpAble = true;
+        movementObjectController.attackAble = true;
+        movementObjectController.tumbleAble = true;
+        movementObjectController.rotateAble = true;
     }
 }
