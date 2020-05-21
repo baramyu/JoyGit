@@ -19,7 +19,7 @@ public class MovementObjectController : MonoBehaviour
 
     protected int curHp;
 
-
+    public bool isDie { get; set; }
     public bool moveAble { get; set; }
     public bool tumbleAble { get; set; }
     public bool jumpAble { get; set; }
@@ -65,10 +65,37 @@ public class MovementObjectController : MonoBehaviour
     {
     }
 
+    public virtual void OnDamage(int damage)
+    {
+    }
+
+    protected virtual void OnDie()
+    {
+        Collider[] colliders = GetComponents<Collider>();
+
+
+        if (m_Rigidbody != null)
+        {
+            m_Rigidbody.isKinematic = true;
+            m_Rigidbody.detectCollisions = false;
+        }
+        foreach (Collider collider in colliders)
+        {
+            collider.enabled = false;
+        }
+
+
+
+        isDie = true;
+        m_Animator.SetBool("die", true);
+    }
+
+
+
     public Collider[] GetCollidersInHitBox(int hitBoxNum)
     {
-        Collider[] hitColliders = Physics.OverlapBox(hitBoxes[hitBoxNum].bounds.center, hitBoxes[hitBoxNum].bounds.extents, Quaternion.identity, 1 << 9);
-        Debug.Log(hitBoxes[hitBoxNum].bounds.center + " / " + hitBoxes[hitBoxNum].bounds.extents);
+        
+        Collider[] hitColliders = Physics.OverlapBox(hitBoxes[hitBoxNum].bounds.center, hitBoxes[hitBoxNum].bounds.extents, Quaternion.identity, ~(1 << gameObject.layer));
         return hitColliders;
     }
 

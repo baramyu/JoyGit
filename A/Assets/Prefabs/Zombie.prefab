@@ -197,6 +197,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5831307060090166651}
+  - component: {fileID: 238287525}
   m_Layer: 9
   m_Name: mixamorig:RightHand
   m_TagString: Untagged
@@ -223,6 +224,19 @@ Transform:
   m_Father: {fileID: 7285288293817543399}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &238287525
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779600875725456302}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.4, y: 0.1, z: 0.3}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &818060603193691084
 GameObject:
   m_ObjectHideFlags: 0
@@ -930,7 +944,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -2576,11 +2590,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHp: 10
-  damage: 0
+  damage: 2
   m_Rigidbody: {fileID: 0}
   m_Animator: {fileID: 2905773484928710498}
-  hitBoxes: []
+  hitBoxes:
+  - {fileID: 238287525}
   maxMoveRadius: 5
+  delayAttackTime: 2
   m_Agent: {fileID: 2557079083431068697}
   m_Canvas: {fileID: 2557079082085273116}
   hpSlider: {fileID: 2557079082520050954}

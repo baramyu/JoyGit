@@ -34,7 +34,7 @@ public class MovementAbleController_Hitting : MovementAbleController
             if (!hitedColliders.Contains(hitCollider))
             {
                 hitedColliders.Add(hitCollider);
-
+                Debug.Log(hitCollider.gameObject);
                 hitCollider.SendMessage("OnDamage", movementObjectController.damage, SendMessageOptions.DontRequireReceiver);
             }
         }

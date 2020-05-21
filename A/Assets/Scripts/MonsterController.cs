@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class MonsterController : MovementObjectController
 {
     public float maxMoveRadius;
-
+    public float delayAttackTime;
 
     [SerializeField]
     NavMeshAgent m_Agent;
@@ -15,15 +15,20 @@ public class MonsterController : MovementObjectController
     RectTransform m_Canvas;
     [SerializeField]
     Slider hpSlider;
+    
+
 
     GameObject target;
     float lastSetDestinationTime;
     float delaySetDestinationTime;
+    float lastAttackTime;
+    GameObject[] players;
 
 
     protected override void Start()
     {
         base.Start();
+        players = GameObject.FindGameObjectsWithTag("Player");
 
         SetRandomDestiantion();
     }
@@ -31,6 +36,7 @@ public class MonsterController : MovementObjectController
     private void Update()
     {
         m_Canvas.rotation = Quaternion.identity;
+
     }
 
 
@@ -38,6 +44,9 @@ public class MonsterController : MovementObjectController
     {
         Finding();
         Moving();
+
+        if (IsAttackReady())
+            Attack();
     }
 
 
@@ -85,7 +94,7 @@ public class MonsterController : MovementObjectController
     }
 
 
-    public void OnDamage(int damage)
+    public override void OnDamage(int damage)
     {
         curHp -= damage;
         hpSlider.value = (float)curHp / maxHp;
@@ -99,60 +108,54 @@ public class MonsterController : MovementObjectController
             m_Animator.SetTrigger("damage");
         }
     }
-    void OnDie()
-    {
-        Collider[] colliders = GetComponents<Collider>();
-        foreach(Collider collider in colliders)
-        {
-            collider.enabled = false;
-        }
-        m_Animator.SetTrigger("die");
-    }
+
 
 
 
     void Finding()
     {
-        if (target != null)
-            return;
 
-        Collider[] colliders = Physics.OverlapSphere(transform.position, maxMoveRadius);
-
-        foreach(Collider collider in colliders)
+        if (target == null)
         {
-            if(collider.CompareTag("Player"))
+            foreach (GameObject player in players)
             {
-                target = collider.gameObject;
-                transform.LookAt(target.transform);
-                m_Animator.SetTrigger("scream");
-                m_Agent.speed = 3f;
+                if (Vector3.Distance(player.transform.position, transform.position) < maxMoveRadius)
+                {
+                    target = player;
+                    transform.LookAt(target.transform);
+                    m_Animator.SetTrigger("scream");
+                    m_Agent.speed = 3f;
 
-                return;
+                    return;
+                }
             }
         }
+
     }
 
+
+    private bool IsAttackReady()
+    {
+        if (target == null)
+            return false;
+        if (Vector3.Distance(target.transform.position, transform.position) > 2f)
+            return false;
+        if (Time.time < lastAttackTime + delayAttackTime)
+            return false;
+
+        return true;
+    }
 
     protected override void Attack()
     {
         if (!attackAble)
             return;
-        
 
+        m_Animator.SetTrigger("attack");
+
+        lastAttackTime = Time.time;
     }
 
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (target == null && other.CompareTag("Player"))
-        {
-            target = other.gameObject;
-            transform.LookAt(target.transform);
-            m_Animator.SetTrigger("scream");
-
-            m_Agent.speed = 3f;
-        }
-    }
 
 
 }

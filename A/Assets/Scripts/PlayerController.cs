@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class PlayerController : MovementObjectController
 {
@@ -15,6 +15,8 @@ public class PlayerController : MovementObjectController
     
     [SerializeField]
     GameObject dirGizmo;
+    [SerializeField]
+    Slider hpSlider;
 
 
     public int m_jumpNum { get; set; }
@@ -39,11 +41,11 @@ public class PlayerController : MovementObjectController
             Jump();
         }
 
-        if(Input.GetKeyDown(KeyCode.F))
+        if(Input.GetKeyDown(KeyCode.U))
         {
             Attack();
         }
-        if(Input.GetKeyDown(KeyCode.G))
+        if(Input.GetKeyDown(KeyCode.LeftShift))
         {
             Tumble();
         }
@@ -140,6 +142,23 @@ public class PlayerController : MovementObjectController
 
 
     }
+
+    public override void OnDamage(int damage)
+    {
+        curHp -= damage;
+        hpSlider.value = (float)curHp / maxHp;
+
+        if (curHp <= 0)
+        {
+            OnDie();
+        }
+        else
+        {
+            m_Animator.SetTrigger("damage");
+        }
+    }
+
+
 
 
     private void OnCollisionStay(Collision collision)

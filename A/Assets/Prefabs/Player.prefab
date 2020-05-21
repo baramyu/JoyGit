@@ -1456,6 +1456,7 @@ GameObject:
   - component: {fileID: 4710752738651616762}
   - component: {fileID: 4710752738651616761}
   - component: {fileID: 4710752738651616764}
+  - component: {fileID: 1936982659}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -1563,12 +1564,27 @@ MonoBehaviour:
   hitBoxes:
   - {fileID: 3633742625375519325}
   - {fileID: 5417763923738467959}
+  - {fileID: 1936982659}
   moveSpeed: 4
   turnSpeed: 20
   jumpSpeed: 7
   jumpNum: 2
   tumbleSpeed: 7
   dirGizmo: {fileID: 6271714560722454539}
+  hpSlider: {fileID: 0}
+--- !u!65 &1936982659
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4710752738651616765}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.5, y: 0.5, z: 0.7}
+  m_Center: {x: 0, y: 1.25, z: 0.5}
 --- !u!1 &4712527108719378840
 GameObject:
   m_ObjectHideFlags: 0
