@@ -6,12 +6,12 @@ using UnityEngine.UI;
 public class PlayerController : MovementObjectController
 {
     
-    
     public float moveSpeed;
     public float turnSpeed;
     public float jumpSpeed;
     public int jumpNum;
     public float tumbleSpeed;
+
     
     [SerializeField]
     GameObject dirGizmo;
@@ -19,14 +19,21 @@ public class PlayerController : MovementObjectController
     Slider hpSlider;
 
 
+    public List<RoomRenderer> curRooms { get; set; }
+
+
     public int m_jumpNum { get; set; }
 
     public Vector3 dirInput { get; set; }
+
+
+    
 
     protected override void Start()
     {
         base.Start();
 
+        curRooms = new List<RoomRenderer>();
     }
 
 
@@ -41,7 +48,7 @@ public class PlayerController : MovementObjectController
             Jump();
         }
 
-        if(Input.GetKeyDown(KeyCode.U))
+        if(Input.GetMouseButtonDown(0))
         {
             Attack();
         }
@@ -53,11 +60,14 @@ public class PlayerController : MovementObjectController
         dirInput = VirtualJoystick.input;
         DirGizomo();
 #endif
+
     }
     void FixedUpdate()
     {
         Moving();
         Rotating();
+
+
     }
 
 
@@ -174,6 +184,7 @@ public class PlayerController : MovementObjectController
         m_Animator.SetBool("onGround", false);
         m_jumpNum = jumpNum - 1;
     }
+
 
 
 }
