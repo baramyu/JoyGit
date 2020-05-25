@@ -5,7 +5,7 @@ using UnityEngine;
 public class RobotLine : MonoBehaviour
 {
     public Vector3 startPos;
-    public float endtPoint;
+    public float endXPos;
     public float speed;
 
     // Start is called before the first frame update
@@ -17,7 +17,7 @@ public class RobotLine : MonoBehaviour
     private void FixedUpdate()
     {
         transform.Translate(Vector3.forward * speed * Time.fixedDeltaTime);
-        if (transform.position.x >= endtPoint)
+        if (transform.position.x >= endXPos)
         {
             transform.position = startPos;
 

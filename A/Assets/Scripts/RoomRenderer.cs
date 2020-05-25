@@ -145,6 +145,7 @@ public class RoomRenderer : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        Debug.Log(gameObject);
         if(other.CompareTag("Player"))
         {
             if(!playerController.curRooms.Contains(this))
