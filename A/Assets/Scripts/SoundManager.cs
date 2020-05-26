@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
+    public static SoundManager instance;
+
+
     [SerializeField]
     AudioSource bgmSource;
     [SerializeField]
@@ -12,6 +15,10 @@ public class SoundManager : MonoBehaviour
     public AudioClip buttonHover;
     public AudioClip buttonClick;
 
+    private void Awake()
+    {
+        instance = this;
+    }
 
     void Start()
     {
@@ -27,5 +34,22 @@ public class SoundManager : MonoBehaviour
     {
         fxSource.clip = buttonClick;
         fxSource.Play();
+    }
+
+    public void FadeOutBgm(float fadeTime)
+    {
+        StartCoroutine(FadeOutBgmCor(fadeTime));
+    }
+
+    IEnumerator FadeOutBgmCor(float fadeTime)
+    {
+        float startVolume = bgmSource.volume;
+
+        while (bgmSource.volume > 0)
+        {
+            bgmSource.volume -= startVolume * Time.deltaTime / fadeTime;
+
+            yield return null;
+        }
     }
 }
