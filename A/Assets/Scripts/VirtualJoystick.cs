@@ -38,7 +38,7 @@ public class VirtualJoystick : MonoBehaviour
 
 
 
-            //화면 좌측
+            //화면에서 왼쪽 반 부분을 눌렀을때만 동작
             if(downPos.x < Screen.width/2f)
             {
                 virtualJoystickBG.transform.position = downPos;
@@ -74,7 +74,7 @@ public class VirtualJoystick : MonoBehaviour
 
             virtualJoystickBG.SetActive(false);
         }
-#elif UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
+//#elif UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);

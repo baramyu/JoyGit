@@ -52,4 +52,13 @@ public class SoundManager : MonoBehaviour
             yield return null;
         }
     }
+
+    public void SetBgmVolume(float volume)
+    {
+        bgmSource.volume = volume;
+    }
+    public void SetFxVolume(float volume)
+    {
+        fxSource.volume = volume;
+    }
 }

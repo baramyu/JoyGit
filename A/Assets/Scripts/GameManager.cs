@@ -16,8 +16,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     GameObject titleMenu;
-    [SerializeField]
-    CinemachineBrain brainCam;
+    public CinemachineBrain brainCam;
     [SerializeField]
     CinemachineVirtualCamera mainFollowCam;
     [SerializeField]
@@ -34,6 +33,8 @@ public class GameManager : MonoBehaviour
     GameObject robotLine;
     [SerializeField]
     GameObject[] robots;
+    [SerializeField]
+    Player player;
 
     public void StartGame()
     {
@@ -46,7 +47,7 @@ public class GameManager : MonoBehaviour
         titleCam.gameObject.SetActive(false);
         introCam.gameObject.SetActive(true);
         yield return new WaitForSeconds(brainCam.m_DefaultBlend.m_Time);
-        introCart.m_Speed = 0.3f;
+        introCart.m_Speed = 0.9f;//0.3
         yield return new WaitForSeconds(introPath.PathLength / introCart.m_Speed);
         introCam.gameObject.SetActive(false);
         robotLine.SetActive(false);
@@ -59,7 +60,6 @@ public class GameManager : MonoBehaviour
             mainFollowCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 2f;
             mainFollowCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 2f;
             explosions[i].gameObject.SetActive(true);
-            Destroy(explosions[i], 1f);
 
             robots[i].SetActive(true);
             robots[i].GetComponentInChildren<Rigidbody>().AddForce(robots[i].transform.forward * 30000f);
@@ -68,6 +68,17 @@ public class GameManager : MonoBehaviour
         }
         mainFollowCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 0f;
         mainFollowCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 0f;
+
+        yield return new WaitForSeconds(1f);
+        mainFollowCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 2f;
+        mainFollowCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 2f;
+        explosions[3].gameObject.SetActive(true);
+        player.gameObject.SetActive(true);
+        player.OnDamage(0, true);
+        player.OnKnockback(-player.transform.forward * 40000f);
+        mainFollowCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_AmplitudeGain = 0f;
+        mainFollowCam.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>().m_FrequencyGain = 0f;
+        mainFollowCam.Follow = player.transform;
     }
 
 }
