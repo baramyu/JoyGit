@@ -9,6 +9,7 @@ TagManager:
   - Interact
   - Enemy
   - Room
+  - Side
   layers:
   - Default
   - TransparentFX

@@ -10,10 +10,14 @@ public class Movement : StateMachineBehaviour
     public bool jumpAble;
     public bool attackAble;
     public bool tumbleAble;
+    [SerializeField]
+    AudioClip clip;
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         SetMovementAble();
+        if (clip != null)
+            movementObject.PlayClip(clip);
     }
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -38,4 +42,5 @@ public class Movement : StateMachineBehaviour
         movementObject.tumbleAble = tumbleAble;
         movementObject.rotateAble = rotateAble;
     }
+
 }

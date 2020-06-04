@@ -16,7 +16,7 @@ public class Sword : MonoBehaviour, IInteract
 
     public string GetInteractText()
     {
-        return "뽑기";
+        return "'검' 획득";
     }
 
     public Vector3 GetPosition()

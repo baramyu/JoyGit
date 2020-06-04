@@ -15,6 +15,7 @@ public class SettingInfo : MonoBehaviour
     public KeyCode right;//defalt:d, 100
     public KeyCode left;//defalt:a, 97*/
     public KeyCode attack;//defalt:mouse0, 323
+    public KeyCode fire;//defalt:mouse1, 324
     public KeyCode tumble;//defalt:LShift, 304
     public KeyCode jump;//defalt:space, 32
     public KeyCode skill1;//defalt:1, 49
@@ -33,6 +34,7 @@ public class SettingInfo : MonoBehaviour
 
 #if UNITY_STANDALONE || UNITY_WEBPLAYER
         attack = (KeyCode)PlayerPrefs.GetInt("attackKey", 323);
+        fire = (KeyCode)PlayerPrefs.GetInt("fireKey", 324);
         tumble = (KeyCode)PlayerPrefs.GetInt("tumbleKey", 304);
         jump = (KeyCode)PlayerPrefs.GetInt("jumpKey", 32);
         skill1 = (KeyCode)PlayerPrefs.GetInt("skill1Key", 49);

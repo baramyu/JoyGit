@@ -9,6 +9,7 @@ public class MovementObject : MonoBehaviour
     //행동관련
     protected Animator m_Animator;
     protected Rigidbody m_Rigidbody;
+    protected AudioSource m_AudioSource;
     public bool moveAble { get; set; }
     public bool rotateAble { get; set; }
     public bool tumbleAble { get; set; }
@@ -19,7 +20,7 @@ public class MovementObject : MonoBehaviour
     public float jumpSpeed;
     public float tumbleSpeed;
     public int maxJumpNum;
-    protected int curJumpNum;
+    public int curJumpNum { get; set; }
 
 
 
@@ -36,6 +37,8 @@ public class MovementObject : MonoBehaviour
     public int strength;
 
     //효과관련
+    public Transform[] pivots;
+    public Slider[] areaSliders;
     protected Renderer[] m_Renderers;
     protected Material[] originalMaterials;
     [SerializeField]
@@ -46,6 +49,7 @@ public class MovementObject : MonoBehaviour
         m_Animator = GetComponent<Animator>();
         m_Rigidbody = GetComponent<Rigidbody>();
         m_Renderers = GetComponentsInChildren<Renderer>();
+        m_AudioSource = GetComponent<AudioSource>();
         curHp = maxHp;
     }
 
@@ -148,7 +152,11 @@ public class MovementObject : MonoBehaviour
         m_Rigidbody.AddForce(force);
     }
 
-
+    public void PlayClip(AudioClip clip)
+    {
+        m_AudioSource.clip = clip;
+        m_AudioSource.Play();
+    }
 
     public void Twinkle(float time)
     {

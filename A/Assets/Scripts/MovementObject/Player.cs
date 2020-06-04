@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEditor.Animations;
 using UnityEngine;
 
@@ -16,7 +17,14 @@ public class Player : MovementObject
     //sword
     [SerializeField]
     AnimatorController swordAnimator;
+    [SerializeField]
+    GameObject sword;
 
+    //gun
+    [SerializeField]
+    GameObject gun;
+    [SerializeField]
+    ParticleSystem gunPointParticle;
 
     protected override void Start()
     {
@@ -46,6 +54,10 @@ public class Player : MovementObject
         {
             Interact();
         }
+        if(gun.activeSelf == true && Input.GetKeyDown(SettingInfo.instance.fire))
+        {
+            Fire();
+        }
 
 #elif UNITY_IOS || UNITY_ANDROID || UNITY_WP8 || UNITY_IPHONE
         dirInput = VirtualJoystick.input;
@@ -67,7 +79,7 @@ public class Player : MovementObject
     {
         if (!moveAble)
             return;
-        m_Rigidbody.MovePosition(m_Rigidbody.position + dirInput * moveSpeed * Time.deltaTime);
+        m_Rigidbody.MovePosition(m_Rigidbody.position + dirInput * moveSpeed * Time.fixedDeltaTime);
     }
     protected override void Rotate()
     {
@@ -119,7 +131,17 @@ public class Player : MovementObject
             m_Rigidbody.velocity = dirInput.normalized * tumbleSpeed + tmpYSpeed;
         }
     }
+    void Fire()
+    {
+        if (!attackAble)
+            return;
+        m_Animator.SetTrigger("fire");
+        gunPointParticle.Play();
+
+    }
     #endregion
+
+
 
 
     void DirGizomo()
@@ -152,8 +174,14 @@ public class Player : MovementObject
     public void GetSword()
     {
         m_Animator.runtimeAnimatorController = swordAnimator;
+        sword.SetActive(true);
         InitMovement();
     }
+    public  void GetGun()
+    {
+        gun.SetActive(true);
+    }
+
 
     #region OnCollision
     private void OnCollisionStay(Collision collision)

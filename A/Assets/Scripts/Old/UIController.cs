@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour
 {
     [SerializeField]
-    PlayerController player;
+    Player player;
 
     [SerializeField]
     Image attackBuuton;
@@ -28,7 +28,7 @@ public class UIController : MonoBehaviour
             attackBuuton.color = Color.gray;
         }
 
-        if (player.jumpAble && player.m_jumpNum > 0)
+        if (player.jumpAble && player.curJumpNum > 0)
         {
             jumpBuuton.color = Color.white;
         }
